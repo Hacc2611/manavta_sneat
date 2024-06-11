@@ -16,17 +16,85 @@
         $(document).ready(function() {
             $('.edit-worker').click(function() {
                 var id = $(this).data('id');
+                var company_id = $(this).data('company_id');
                 var name = $(this).data('name');
-                var address = $(this).data('addresse');
+                var father = $(this).data('father');
+                var addresse = $(this).data('address');
+                var designation = $(this).data('designation');
+                var identification_mark = $(this).data('identification_mark');
+                var work_at_hazardous_process = $(this).data('work_at_hazardous_process');
+                var work_at_dangerous_operation = $(this).data('work_at_dangerous_operation');
+                var mobile_no = $(this).data('mobile_no');
+                var dob = $(this).data('dob');
+                var age = $(this).data('age');
+                var employee_id = $(this).data('employee_id');
+                var gender = $(this).data('gender');
+                var blood_group = $(this).data('blood_group');
+                var last_donate_date = $(this).data('last_donate_date');
+                var height = $(this).data('height');
+                var weight = $(this).data('weight');
+                var blood_pressure = $(this).data('blood_pressure');
+                var bmi = $(this).data('bmi');
+                var pulse = $(this).data('pulse');
+                var present_complaints = $(this).data('present_complaints');
+                var treatment_history = $(this).data('treatment_history');
+                var past_history = $(this).data('past_history');
+                var family_history = $(this).data('family_history');
+                var occupational_risk = $(this).data('occupational_risk');
+                var allergy = $(this).data('allergy');
+                var cardio = $(this).data('cardio');
+                var resp = $(this).data('resp');
+                var enr = $(this).data('enr');
+                var dental = $(this).data('dental');
+                var eye = $(this).data('eye');
+                var remarks = $(this).data('remarks');
+                var fit_unfit = $(this).data('fit_unfit');
+                var reason_unfit = $(this).data('reason_unfit');
+                var company_id = $(this).data('company_id');
 
                 $('#editWorkerModal #id').val(id);
                 $('#editWorkerModal #name').val(name);
-                $('#editWorkerModal #address').val(address);
+                $('#editWorkerModal #company_id').val(company_id);
+                $('#editWorkerModal #father').val(father);
+                $('#editWorkerModal #addresse').val(addresse);
+                $('#editWorkerModal #designation').val(designation);
+                $('#editWorkerModal #identification_mark').val(identification_mark);
+                $('#editWorkerModal #work_at_hazardous_process').val(work_at_hazardous_process);
+                $('#editWorkerModal #work_at_dangerous_operation').val(work_at_dangerous_operation);
+                $('#editWorkerModal #mobile_no').val(mobile_no);
+                $('#editWorkerModal #dob').val(dob);
+                $('#editWorkerModal #age').val(age);
+                $('#editWorkerModal #employee_id').val(employee_id);
+                $('#editWorkerModal input[name="gender"][value="' + gender + '"]').prop('checked', true);
+                $('#editWorkerModal #blood_group').val(blood_group);
+                $('#editWorkerModal #last_donate_date').val(last_donate_date);
+                $('#editWorkerModal #height').val(height);
+                $('#editWorkerModal #weight').val(weight);
+                $('#editWorkerModal #blood_pressure').val(blood_pressure);
+                $('#editWorkerModal #bmi').val(bmi);
+                $('#editWorkerModal #pulse').val(pulse);
+                $('#editWorkerModal #cin').val(cin);
+                $('#editWorkerModal #present_complaints').val(present_complaints);
+                $('#editWorkerModal #treatment_history').val(treatment_history);
+                $('#editWorkerModal #past_history').val(past_history);
+                $('#editWorkerModal #family_history').val(family_history);
+                $('#editWorkerModal #occupational_risk').val(occupational_risk);
+                $('#editWorkerModal #allergy').val(allergy);
+                $('#editWorkerModal #cardio').val(cardio);
+                $('#editWorkerModal #resp').val(resp);
+                $('#editWorkerModal #enr').val(enr);
+                $('#editWorkerModal #dental').val(dental);
+                $('#editWorkerModal #eye').val(eye);
+                $('#editWorkerModal #remarks').val(remarks);
+                $('#editWorkerModal #fit_unfit').val(fit_unfit);
+                $('#editWorkerModal #reason_unfit').val(reason_unfit);
+                $('#editWorkerModal #company_id').val(company_id);
 
                 $('#editWorkerModal').modal('show');
             });
         });
     </script>
+
 @endsection
 
 @section('content')
@@ -60,15 +128,41 @@
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown" data-id="{{ $worker->id }}"
-                                        data-name="{{ $worker->name }}" data-father="{{ $worker->father }}"
-                                        data-address="{{ $worker->address }}">
+                                        data-bs-toggle="dropdown">
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-worker" href="javascript:void(0);">
+                                        <a class="dropdown-item edit-worker" href="javascript:void(0);"
+                                            data-id="{{ $worker->id }}" data-company-id="{{ $worker->company_id }}"
+                                            data-name="{{ $worker->name }}" data-father="{{ $worker->father }}"
+                                            data-address="{{ $worker->address }}"
+                                            data-designation="{{ $worker->designation }}"
+                                            data-identification-mark="{{ $worker->identification_mark }}"
+                                            data-work-at-hazardous-process="{{ $worker->work_at_hazardous_process }}"
+                                            data-work-at-dangerous-operation="{{ $worker->work_at_dangerous_operation }}"
+                                            data-mobile-no="{{ $worker->mobile_no }}" data-dob="{{ $worker->dob }}"
+                                            data-age="{{ $worker->age }}" data-employee-id="{{ $worker->employee_id }}"
+                                            data-gender="{{ $worker->gender }}"
+                                            data-blood-group="{{ $worker->blood_group }}"
+                                            data-last-donate-date="{{ $worker->last_donate_date }}"
+                                            data-height="{{ $worker->height }}" data-weight="{{ $worker->weight }}"
+                                            data-blood-pressure="{{ $worker->blood_pressure }}"
+                                            data-bmi="{{ $worker->bmi }}" data-pulse="{{ $worker->pulse }}"
+                                            data-present-complaints="{{ $worker->present_complaints }}"
+                                            data-treatment-history="{{ $worker->treatment_history }}"
+                                            data-past-history="{{ $worker->past_history }}"
+                                            data-family-history="{{ $worker->family_history }}"
+                                            data-occupational-risk="{{ $worker->occupational_risk }}"
+                                            data-allergy="{{ $worker->allergy }}" data-cardio="{{ $worker->cardio }}"
+                                            data-resp="{{ $worker->resp }}" data-enr="{{ $worker->enr }}"
+                                            data-dental="{{ $worker->dental }}" data-eye="{{ $worker->eye }}"
+                                            data-remarks="{{ $worker->remarks }}"
+                                            data-fit-unfit="{{ $worker->fit_unfit }}"
+                                            data-reason-unfit="{{ $worker->reason_unfit }}"
+                                            data-company-id="{{ $worker->company_id }}">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
+
                                         <a class="dropdown-item delete-worker"
                                             href="{{ route('worker.destroy', ['worker' => $worker->id]) }}"
                                             onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $worker->name }}?')) { document.getElementById('delete-form-{{ $worker->id }}').submit(); }">
@@ -127,7 +221,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="identification_mark" class="form-label">Identification Mark</label>
-                            <input type="text" class="form-control" id="identification_mark" name="identification_mark">
+                            <input type="text" class="form-control" id="identification_mark"
+                                name="identification_mark">
                         </div>
                         <div class="mb-3">
                             <label for="work_at_hazardous_process" class="form-label">Work at Hazadous Process</label>
@@ -308,6 +403,7 @@
                 <form action="{{ route('worker.update', ['worker' => $worker->id]) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <div class="mb-3">

@@ -90,8 +90,8 @@ Route::prefix('layouts/company')->group(function () {
 
   Route::get('workers', [CompanyController::class, 'workers'])->name('layouts-workers');
   Route::post('storeworker', [CompanyController::class, 'storeWorkers'])->name('worker.store');
-  Route::delete('worker/{worker}', [CompanyController::class, 'destroyWorkers'])->name('worker.destroy');
   Route::put('worker/{worker}', [CompanyController::class, 'updateWorkers'])->name('worker.update');
+  Route::delete('worker/{worker}', [CompanyController::class, 'destroyWorkers'])->name('worker.destroy');
 
   Route::get('physical-examination', [CompanyController::class, 'physicalExamination'])->name('layouts-physical-examination');
 });

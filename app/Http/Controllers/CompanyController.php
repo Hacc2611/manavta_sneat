@@ -195,9 +195,6 @@ class CompanyController extends Controller
     public function updateWorkers(Request $request, $id)
     {
         try {
-            // Find the worker by ID
-            $worker = Workers::findOrFail($id);
-
             // Validate the request data
             $validatedData = $request->validate([
                 'company_id' => 'required',
@@ -210,6 +207,9 @@ class CompanyController extends Controller
                 'upload_pdf' => 'nullable|file|mimes:pdf|max:2048', // Max file size: 2MB
                 'worker_signature' => 'nullable|file|mimes:jpeg,png,jpg|max:2048', // Max file size: 2MB
             ]);
+
+            // Find the worker by ID
+            $worker = Workers::findOrFail($id);
 
             // Update worker attributes
             $worker->fill($validatedData);
@@ -227,10 +227,14 @@ class CompanyController extends Controller
 
             return redirect()->back()->with('success', 'Worker updated successfully!');
         } catch (\Exception $e) {
-            // Handle any exceptions
+            // Log the error
+            Log::error('An error occurred while updating the worker: ' . $e->getMessage());
+
+            // Redirect back with error message
             return redirect()->back()->withInput()->with('error', 'An error occurred while updating the worker: ' . $e->getMessage());
         }
     }
+
     public function destroyWorkers($workers)
     {
         $worker = Workers::findOrFail($workers);
