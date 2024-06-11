@@ -58,35 +58,29 @@
       ]
     },
     {
-      "name": "Layouts",
+      "name": "Company",
       "icon": "menu-icon tf-icons bx bx-layout",
-      "slug": "layouts",
+      "slug": "companies",
       "submenu": [
         {
-          "url": "layouts/without-menu",
-          "name": "Without menu",
-          "slug": "layouts-without-menu"
+          "url": "layouts/company/company-details",
+          "name": "Company Details",
+          "slug": "layouts-company-details"
         },
         {
-          "url": "layouts/without-navbar",
-          "name": "Without navbar",
-          "slug": "layouts-without-navbar"
+          "url": "layouts/company/checkup-drive",
+          "name": "Checkup Drive",
+          "slug": "layouts-checkup-drive"
         },
         {
-          "url": "layouts/container",
-          "name": "Container",
-          "slug": "layouts-container"
+          "url": "layouts/company/workers",
+          "name": "Workers",
+          "slug": "layouts-workers"
         },
         {
-          "url": "layouts/fluid",
-          "name": "Fluid",
-          "slug": "layouts-fluid"
-        },
-        {
-          "url": "layouts/blank",
-          "name": "Blank",
-          "slug": "layouts-blank",
-          "target": "_blank"
+          "url": "layouts/company/physical-examination",
+          "name": "Physical Examination",
+          "slug": "layouts-physical-examination"
         }
       ]
     },

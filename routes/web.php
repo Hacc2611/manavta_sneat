@@ -43,23 +43,59 @@ use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
+use App\Http\Controllers\CompanyController;
 
 // Main Page Route
-Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
+Route::get('/', [LoginBasic::class, 'index'])->name('login');
+Route::post('/login', [LoginBasic::class, 'login'])->name('login.post');
 
 // layout
-Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
-Route::get('/layouts/without-navbar', [WithoutNavbar::class, 'index'])->name('layouts-without-navbar');
-Route::get('/layouts/fluid', [Fluid::class, 'index'])->name('layouts-fluid');
-Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-container');
-Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
+Route::middleware(['auth'])->group(function () {
+  Route::get('/dashboard', [Analytics::class, 'index'])->name('dashboard-analytics');
+  Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
+  Route::get('/layouts/without-navbar', [WithoutNavbar::class, 'index'])->name('layouts-without-navbar');
+  Route::get('/layouts/fluid', [Fluid::class, 'index'])->name('layouts-fluid');
+  Route::get('/layouts/container', [Container::class, 'index'])->name('layouts-container');
+  Route::get('/layouts/blank', [Blank::class, 'index'])->name('layouts-blank');
 
-// pages
-Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
-Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name('pages-account-settings-notifications');
-Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');
-Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
-Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index'])->name('pages-misc-under-maintenance');
+  // pages
+  Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name(
+    'pages-account-settings-account'
+  );
+  Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name(
+    'pages-account-settings-notifications'
+  );
+  Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name(
+    'pages-account-settings-connections'
+  );
+  Route::get('/pages/misc-error', [MiscError::class, 'index'])->name('pages-misc-error');
+  Route::get('/pages/misc-under-maintenance', [MiscUnderMaintenance::class, 'index'])->name(
+    'pages-misc-under-maintenance'
+  );
+});
+
+// Company
+Route::prefix('layouts/company')->group(function () {
+
+  Route::get('company-details', [CompanyController::class, 'companyDetails'])->name('layouts-company-details');
+  Route::post('company', [CompanyController::class, 'storeCompany'])->name('company.store');
+  Route::put('company/{company}', [CompanyController::class, 'updateCompany'])->name('company.update');
+  Route::patch('company/{company}', [CompanyController::class, 'updateCompany']);
+  Route::delete('/company/{company}', [CompanyController::class, 'destroyCompany'])->name('company.destroy');
+
+  Route::get('checkup-drive', [CompanyController::class, 'checkupDrive'])->name('layouts-checkup-drive');
+  Route::post('checkup-drive/store', [CompanyController::class, 'storeCheckupdrive'])->name('checkupDrive.store');
+  Route::put('checkup-drive/{checkupDrive}', [CompanyController::class, 'updateCheckupDrive'])->name('checkupDrive.update');
+  Route::delete('checkup-drive/{checkupDrive}', [CompanyController::class, 'destroyCheckupDrive'])->name('checkupDrive.destroy');
+
+  Route::get('workers', [CompanyController::class, 'workers'])->name('layouts-workers');
+  Route::post('storeworker', [CompanyController::class, 'storeWorkers'])->name('worker.store');
+  Route::delete('worker/{worker}', [CompanyController::class, 'destroyWorkers'])->name('worker.destroy');
+  Route::put('worker/{worker}', [CompanyController::class, 'updateWorkers'])->name('worker.update');
+
+  Route::get('physical-examination', [CompanyController::class, 'physicalExamination'])->name('layouts-physical-examination');
+});
+
 
 // authentication
 Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-basic');
