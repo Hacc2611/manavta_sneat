@@ -8,48 +8,48 @@ use Illuminate\Database\Eloquent\Model;
 class Workers extends Model
 {
     use HasFactory;
-
+    protected $table = 'blood_donors';
     protected $fillable = [
         'company_id',
         'name',
         'father',
-        'address',
-        'designation',
-        'identification_mark',
-        'work_at_hazardous_process',
-        'work_at_dangerous_operation',
+        'addresse',
+        'mark',
+        'haza',
+        'dange',
         'mobile_no',
         'dob',
         'age',
         'employee_id',
         'gender',
+        'designation',
         'blood_group',
         'last_donate_date',
         'height',
         'weight',
-        'blood_pressure',
+        'bp',
         'bmi',
         'pulse',
         'present_complaints',
-        'treatment_history',
-        'past_surgery_details',
+        'past_history',
+        'treat_history',
         'family_history',
-        'occupational_risk',
-        'allergies_skin_risks',
-        'cardiovascular_system',
-        'respiratory_system',
-        'ear_nose_throat',
-        'dental_exam',
-        'color_vision',
+        'occu_risk',
+        'allergy',
+        'cardio',
+        'resp',
+        'enr',
+        'dental',
+        'eye',
         'remarks',
         'fit_unfit',
-        'reason_for_unfit',
+        'reason_unfit',
         'upload_pdf',
         'worker_signature'
     ];
 
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }

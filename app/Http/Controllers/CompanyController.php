@@ -8,7 +8,10 @@ use App\Models\Company;
 use App\Models\Workers;
 use Carbon\Carbon;
 use Illuminate\Queue\Worker;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class CompanyController extends Controller
 {
@@ -109,12 +112,17 @@ class CompanyController extends Controller
         return redirect()->back()->with('success', 'Checkup Drive deleted successfully.');
     }
 
-    public function workers()
+    public function workers(Request $request)
     {
+        $sort_by = $request->query('sort_by', 'id');
+        $sort_order = $request->query('sort_order', 'asc');
         $companies = Company::all();
-        $workers = Workers::all();
-        return view('layouts.company.workers', compact('workers', 'companies'));
+        $workers = Workers::with('company')
+            ->orderBy($sort_by, $sort_order)
+            ->get();
+        return view('layouts.company.workers', compact('workers', 'companies', 'sort_by', 'sort_order'));
     }
+
     public function storeWorkers(Request $request)
     {
         // Validate the request data
@@ -142,46 +150,47 @@ class CompanyController extends Controller
             $worker->blood_group = $validatedData['blood_group'];
             // Assign additional fields from the request
             $worker->father = $request->input('father');
-            $worker->address = $request->input('address');
+            $worker->addresse = $request->input('addresse');
             $worker->designation = $request->input('designation');
-            $worker->identification_mark = $request->input('identification_mark');
-            $worker->work_at_hazardous_process = $request->input('work_at_hazardous_process');
-            $worker->work_at_dangerous_operation = $request->input('work_at_dangerous_operation');
+            $worker->mark = $request->input('mark');
+            $worker->haza = $request->input('haza');
+            $worker->dange = $request->input('dange');
             $worker->age = $request->input('age');
             $worker->last_donate_date = $request->input('last_donate_date');
             $worker->height = $request->input('height');
             $worker->weight = $request->input('weight');
-            $worker->blood_pressure = $request->input('blood_pressure');
+            $worker->bp = $request->input('bp');
             $worker->bmi = $request->input('bmi');
             $worker->pulse = $request->input('pulse');
             $worker->present_complaints = $request->input('present_complaints');
-            $worker->treatment_history = $request->input('treatment_history');
+            $worker->treat_history = $request->input('treat_history');
             $worker->past_history = $request->input('past_history');
             $worker->family_history = $request->input('family_history');
-            $worker->occupational_risk = $request->input('occupational_risk');
-            $worker->allergies_skin_risks = $request->input('allergy');
-            $worker->cardiovascular_system = $request->input('cardio');
-            $worker->respiratory_system = $request->input('resp');
-            $worker->ear_nose_throat = $request->input('enr');
-            $worker->dental_exam = $request->input('dental');
-            $worker->color_vision = $request->input('eye');
+            $worker->occu_risk = $request->input('occu_risk');
+            $worker->allergy = $request->input('allergy');
+            $worker->cardio = $request->input('cardio');
+            $worker->resp = $request->input('resp');
+            $worker->enr = $request->input('enr');
+            $worker->dental = $request->input('dental');
+            $worker->eye = $request->input('eye');
             $worker->remarks = $request->input('remarks');
             $worker->fit_unfit = $request->input('fit_unfit');
-            $worker->reason_for_unfit = $request->input('reason_unfit');
+            $worker->reason_unfit = $request->input('reason_unfit');
 
             // Add more fields as needed
             if ($request->hasFile('upload_pdf')) {
                 $pdfFile = $request->file('upload_pdf');
                 $pdfFileName = time() . '_' . $pdfFile->getClientOriginalName();
-                $pdfFile->move(public_path('pdf_files'), $pdfFileName);
-                $worker->upload_pdf = $pdfFileName;
+                $pdfFile->storeAs('pdf_files', $pdfFileName); // Store file in storage/pdf_files directory
+                $worker->upload_pdf = $pdfFileName; // Save file name to database
             }
             if ($request->hasFile('worker_signature')) {
                 $signatureFile = $request->file('worker_signature');
                 $signatureFileName = time() . '_' . $signatureFile->getClientOriginalName();
-                $signatureFile->move(public_path('signatures'), $signatureFileName);
-                $worker->worker_signature = $signatureFileName;
+                $signatureFile->storeAs('signatures', $signatureFileName); // Store file in storage/signatures directory
+                $worker->worker_signature = $signatureFileName; // Save file name to database
             }
+
             // Save the worker to the database
             $worker->save();
 
@@ -214,11 +223,25 @@ class CompanyController extends Controller
             // Update worker attributes
             $worker->fill($validatedData);
 
-            // Handle file uploads if present
+            // Handle PDF file upload if present
             if ($request->hasFile('upload_pdf')) {
-                $worker->upload_pdf = $request->file('upload_pdf')->store('pdf_files');
+                // Delete the old file if it exists
+                if ($worker->upload_pdf) {
+                    Storage::delete($worker->upload_pdf);
+                }
+                $pdfFile = $request->file('upload_pdf');
+                $pdfFileName = time() . '_' . $pdfFile->getClientOriginalName();
+                $pdfFile->storeAs('pdf_files', $pdfFileName); // Store file in storage/pdf_files directory
+                $worker->upload_pdf = $pdfFileName; // Save file name to database
             }
+
+            // Handle worker signature file upload if present
             if ($request->hasFile('worker_signature')) {
+                // Delete the old file if it exists
+                if ($worker->worker_signature) {
+                    Storage::delete($worker->worker_signature);
+                }
+                // Store the new file and update the database column
                 $worker->worker_signature = $request->file('worker_signature')->store('signatures');
             }
 
@@ -241,7 +264,13 @@ class CompanyController extends Controller
         $worker->delete();
         return redirect()->back()->with('success', 'Worker deleted successfully.');
     }
-
+    public function generateWorkerPDF($id)
+    {
+        $companies = Company::all();
+        $worker = Workers::findOrFail($id);
+        $pdf = PDF::loadView('layouts.company.worker_pdf', compact('worker', 'companies'));
+        return $pdf->stream('worker_' . $id . '.pdf');
+    }
     public function physicalExamination()
     {
         return view('layouts.company.physical-examination');

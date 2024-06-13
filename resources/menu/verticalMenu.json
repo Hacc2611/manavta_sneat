@@ -4,58 +4,7 @@
       "url": "/",
       "name": "Dashboards",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard",
-      "badge": [
-        "danger",
-        "5"
-      ],
-      "submenu": [
-        {
-          "url": "/",
-          "name": "Analytics",
-          "slug": "dashboard-analytics"
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/dashboard/crm",
-          "name": "CRM",
-          "slug": "dashboard-crm",
-          "target": "_blank",
-          "badge": [
-            "label-primary fs-tiny",
-            "Pro"
-          ]
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/ecommerce/dashboard",
-          "name": "eCommerce",
-          "slug": "app-ecommerce-dashboard",
-          "target": "_blank",
-          "badge": [
-            "label-primary fs-tiny",
-            "Pro"
-          ]
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/logistics/dashboard",
-          "name": "Logistics",
-          "slug": "app-logistics-dashboard",
-          "target": "_blank",
-          "badge": [
-            "label-primary fs-tiny",
-            "Pro"
-          ]
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/academy/dashboard",
-          "name": "Academy",
-          "slug": "app-academy-dashboard",
-          "target": "_blank",
-          "badge": [
-            "label-primary fs-tiny",
-            "Pro"
-          ]
-        }
-      ]
+      "slug": "dashboard"
     },
     {
       "name": "Company",
@@ -85,109 +34,61 @@
       ]
     },
     {
-      "name": "Front Pages",
-      "icon": "menu-icon tf-icons bx bx-store",
-      "slug": "front-pages",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ],
-      "submenu": [
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/front-pages/landing",
-          "name": "Landing",
-          "slug": "front-pages-landing",
-          "target": "_blank"
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/front-pages/pricing",
-          "name": "Pricing",
-          "slug": "front-pages-pricing",
-          "target": "_blank"
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/front-pages/payment",
-          "name": "Payment",
-          "slug": "front-pages-payment",
-          "target": "_blank"
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/front-pages/checkout",
-          "name": "Checkout",
-          "slug": "front-pages-checkout",
-          "target": "_blank"
-        },
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/front-pages/help-center",
-          "name": "Help Center",
-          "slug": "front-pages-help-center",
-          "target": "_blank"
-        }
-      ]
+      "name": "Accountants",
+      "icon": "menu-icon tf-icons bx bx-layout",
+      "slug": "accountants"
     },
     {
-      "name": "Laravel Crud",
+      "name": "Appointments",
+      "icon": "menu-icon tf-icons bx bx-store",
+      "slug": "appointments"
+    },
+    {
+      "name": "Billing",
       "icon": "menu-icon tf-icons bx bxl-php",
-      "slug": "laravel-example",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ],
-      "submenu": [
-        {
-          "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/laravel/user-management",
-          "name": "User Management",
-          "slug": "laravel-example-user-management",
-          "target": "_blank"
-        }
-      ]
+      "slug": "billing"
     },
     {
       "menuHeader": "Apps & Pages"
     },
     {
       "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/email",
-      "name": "Email",
+      "name": "Bed Management",
       "icon": "menu-icon tf-icons bx bx-envelope",
-      "slug": "app-email",
-      "target": "_blank",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ]
-    },
-    {
-      "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/chat",
-      "name": "Chat",
-      "icon": "menu-icon tf-icons bx bx-chat",
-      "slug": "app-chat",
-      "target": "_blank",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ]
+      "slug": "bed-management",
+      "target": "_blank"
     },
     {
       "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/calendar",
-      "name": "Calendar",
+      "name": "Documents",
       "icon": "menu-icon tf-icons bx bx-calendar",
-      "slug": "app-calendar",
-      "target": "_blank",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ]
+      "slug": "documents",
+      "target": "_blank"
     },
     {
       "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/app/kanban",
-      "name": "Kanban",
+      "name": "Doctors",
       "icon": "menu-icon tf-icons bx bx-grid",
-      "slug": "app-kanban",
-      "target": "_blank",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ]
+      "slug": "doctors",
+      "target": "_blank"
+    },
+    {
+      "name": "Diagnosis",
+      "icon": "menu-icon tf-icons bx bx bx-dock-top",
+      "slug": "diagnosis"
+    },
+    {
+      "name": "Enquires",
+      "icon": "menu-icon tf-icons bx bx-lock-open-alt",
+      "slug": "enquires"
+    },
+    {
+      "name": "Finances",
+      "icon": "menu-icon tf-icons bx bx-cube-alt",
+      "slug": "finances"
+    },
+    {
+      "menuHeader": "Account"
     },
     {
       "name": "Account Settings",
@@ -259,10 +160,112 @@
       "menuHeader": "Components"
     },
     {
+      "name": "Front Office",
+      "icon": "menu-icon tf-icons bx bx-collection",
+      "slug": "front-office",
+      "url": "cards/basic"
+    },
+    {
+      "name": "Front CMS",
+      "icon": "menu-icon tf-icons bx bx-box",
+      "slug": "ui"
+    },
+    {
+      "name": "Hospital Charge",
+      "icon": "menu-icon tf-icons bx bx-copy",
+      "slug": "hospital_charge"
+    },
+    {
+      "url": "icons/boxicons",
+      "icon": "menu-icon tf-icons bx bx-crown",
+      "name": "IPD/OPD",
+      "slug": "ipd/opd"
+    },
+    {
       "name": "Cards",
       "icon": "menu-icon tf-icons bx bx-collection",
       "slug": "cards-basic",
       "url": "cards/basic"
+    },
+    {
+      "menuHeader": "Misc"
+    },
+    {
+      "url": "https://github.com/themeselection/sneat-bootstrap-html-laravel-admin-template-free/issues",
+      "icon": "menu-icon tf-icons bx bx-support",
+      "name": "Patients",
+      "slug": "Patients",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Pharmacists",
+      "slug": "Pharmacists",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Pathology",
+      "slug": "Pathology",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Receptionists",
+      "slug": "Receptionists",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Reports",
+      "slug": "Reports",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Radiology",
+      "slug": "Radiology",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Services",
+      "slug": "Services",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "SMS/MAIL",
+      "slug": "sms/mail",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Settings",
+      "slug": "settings",
+      "target": "_blank"
+    },
+    {
+      "url": "/tables/basic",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Users",
+      "slug": "users",
+      "target": "_blank"
+    },
+    {
+      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Vaccinations",
+      "slug": "vaccinations",
+      "target": "_blank"
     },
     {
       "name": "User interface",
@@ -390,6 +393,49 @@
       "slug": "icons-boxicons"
     },
     {
+      "url": "tables/basic",
+      "icon": "menu-icon tf-icons bx bx-table",
+      "name": "Medicine",
+      "slug": "medicine"
+    },
+    {
+      "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/tables/datatables-basic",
+      "icon": "menu-icon tf-icons bx bx-grid",
+      "name": "Nurses",
+      "slug": "nurses",
+      "target": "_blank"
+    },
+    {
+      "name": "Inventories",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "inventories"
+    },
+    {
+      "name": "Lab Technicians",
+      "icon": "menu-icon tf-icons bx bx-detail",
+      "slug": "lab-technicians"
+    },
+    {
+      "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/form/validation",
+      "icon": "menu-icon tf-icons bx bx-list-check",
+      "name": "Live Consultations",
+      "slug": "live-consultations",
+      "target": "_blank"
+    },
+    {
+      "url": "tables/basic",
+      "icon": "menu-icon tf-icons bx bx-table",
+      "name": "Medicine",
+      "slug": "medicine"
+    },
+    {
+      "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/tables/datatables-basic",
+      "icon": "menu-icon tf-icons bx bx-grid",
+      "name": "Nurses",
+      "slug": "nurses",
+      "target": "_blank"
+    },
+    {
       "menuHeader": "Forms & Tables"
     },
     {
@@ -427,49 +473,10 @@
       ]
     },
     {
-      "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/form/validation",
-      "icon": "menu-icon tf-icons bx bx-list-check",
-      "name": "Form Validation",
-      "slug": "form-validation",
-      "target": "_blank",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ]
-    },
-    {
       "url": "tables/basic",
       "icon": "menu-icon tf-icons bx bx-table",
       "name": "Tables",
       "slug": "tables-basic"
-    },
-    {
-      "url": "https://demos.themeselection.com/sneat-bootstrap-html-laravel-admin-template/demo-1/tables/datatables-basic",
-      "icon": "menu-icon tf-icons bx bx-grid",
-      "name": "Datatables",
-      "slug": "tables-datatables",
-      "target": "_blank",
-      "badge": [
-        "label-primary fs-tiny",
-        "Pro"
-      ]
-    },
-    {
-      "menuHeader": "Misc"
-    },
-    {
-      "url": "https://github.com/themeselection/sneat-bootstrap-html-laravel-admin-template-free/issues",
-      "icon": "menu-icon tf-icons bx bx-support",
-      "name": "Support",
-      "slug": "support",
-      "target": "_blank"
-    },
-    {
-      "url": "https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/laravel-introduction.html",
-      "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Documentation",
-      "slug": "documentation",
-      "target": "_blank"
     }
   ]
 }

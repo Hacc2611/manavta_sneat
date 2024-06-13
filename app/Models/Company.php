@@ -17,4 +17,8 @@ class Company extends Model
         'gstin',
         'cin',
     ];
+    public function workers()
+    {
+        return $this->hasMany(Workers::class, 'company_id');
+    }
 }

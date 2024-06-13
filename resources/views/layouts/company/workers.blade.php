@@ -5,11 +5,70 @@
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css"> --}}
+    <style>
+        .no-text-decoration {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .no-text-decoration:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sortable-icon {
+            font-size: 0.75em;
+            margin-left: 5px;
+        }
+
+        .dataTables_length,
+        .dataTables_filter {
+            margin-bottom: 20px;
+        }
+
+        .dataTables_info {
+            margin: 20px 20px 0 20px;
+        }
+
+        .dataTables_paginate ul {
+            margin: 15px;
+            margin-left: 7rem;
+        }
+
+        .dataTables_length label {
+            padding-left: 20px;
+            padding-top: 10px;
+            display: flex;
+        }
+
+        .custom-select {
+            width: 3rem;
+            margin: 0 10px;
+        }
+
+        .dataTables_filter label {
+            padding-top: 10px;
+            margin-left: 10rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .dataTables_filter input {
+            margin-left: 5px;
+            width: 12rem;
+        }
+    </style>
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 @endsection
 @section('page-script')
     <script>
@@ -19,11 +78,11 @@
                 var company_id = $(this).data('company_id');
                 var name = $(this).data('name');
                 var father = $(this).data('father');
-                var addresse = $(this).data('address');
+                var addresse = $(this).data('addresse');
                 var designation = $(this).data('designation');
-                var identification_mark = $(this).data('identification_mark');
-                var work_at_hazardous_process = $(this).data('work_at_hazardous_process');
-                var work_at_dangerous_operation = $(this).data('work_at_dangerous_operation');
+                var mark = $(this).data('mark');
+                var haza = $(this).data('haza');
+                var dange = $(this).data('dange');
                 var mobile_no = $(this).data('mobile_no');
                 var dob = $(this).data('dob');
                 var age = $(this).data('age');
@@ -33,14 +92,14 @@
                 var last_donate_date = $(this).data('last_donate_date');
                 var height = $(this).data('height');
                 var weight = $(this).data('weight');
-                var blood_pressure = $(this).data('blood_pressure');
+                var bp = $(this).data('bp');
                 var bmi = $(this).data('bmi');
                 var pulse = $(this).data('pulse');
                 var present_complaints = $(this).data('present_complaints');
-                var treatment_history = $(this).data('treatment_history');
+                var treat_history = $(this).data('treat_history');
                 var past_history = $(this).data('past_history');
                 var family_history = $(this).data('family_history');
-                var occupational_risk = $(this).data('occupational_risk');
+                var occu_risk = $(this).data('occu_risk');
                 var allergy = $(this).data('allergy');
                 var cardio = $(this).data('cardio');
                 var resp = $(this).data('resp');
@@ -58,9 +117,9 @@
                 $('#editWorkerModal #father').val(father);
                 $('#editWorkerModal #addresse').val(addresse);
                 $('#editWorkerModal #designation').val(designation);
-                $('#editWorkerModal #identification_mark').val(identification_mark);
-                $('#editWorkerModal #work_at_hazardous_process').val(work_at_hazardous_process);
-                $('#editWorkerModal #work_at_dangerous_operation').val(work_at_dangerous_operation);
+                $('#editWorkerModal #mark').val(mark);
+                $('#editWorkerModal #haza').val(haza);
+                $('#editWorkerModal #dange').val(dange);
                 $('#editWorkerModal #mobile_no').val(mobile_no);
                 $('#editWorkerModal #dob').val(dob);
                 $('#editWorkerModal #age').val(age);
@@ -70,15 +129,15 @@
                 $('#editWorkerModal #last_donate_date').val(last_donate_date);
                 $('#editWorkerModal #height').val(height);
                 $('#editWorkerModal #weight').val(weight);
-                $('#editWorkerModal #blood_pressure').val(blood_pressure);
+                $('#editWorkerModal #bp').val(bp);
                 $('#editWorkerModal #bmi').val(bmi);
                 $('#editWorkerModal #pulse').val(pulse);
                 $('#editWorkerModal #cin').val(cin);
                 $('#editWorkerModal #present_complaints').val(present_complaints);
-                $('#editWorkerModal #treatment_history').val(treatment_history);
+                $('#editWorkerModal #treat_history').val(treat_history);
                 $('#editWorkerModal #past_history').val(past_history);
                 $('#editWorkerModal #family_history').val(family_history);
-                $('#editWorkerModal #occupational_risk').val(occupational_risk);
+                $('#editWorkerModal #occu_risk').val(occu_risk);
                 $('#editWorkerModal #allergy').val(allergy);
                 $('#editWorkerModal #cardio').val(cardio);
                 $('#editWorkerModal #resp').val(resp);
@@ -91,6 +150,20 @@
                 $('#editWorkerModal #company_id').val(company_id);
 
                 $('#editWorkerModal').modal('show');
+            });
+        });
+
+        $(document).ready(function() {
+            $('.table').DataTable({
+                "lengthMenu": [
+                    [10, 25, 50, 100],
+                    [10, 25, 50, 100]
+                ], // Items per page options
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 5
+                    } // Disable sorting on the Actions column
+                ]
             });
         });
     </script>
@@ -106,14 +179,42 @@
             </button>
         </div>
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>
+                            <a href="{{ route('layouts-workers', ['sort_by' => 'id', 'sort_order' => $sort_by === 'id' && $sort_order === 'asc' ? 'desc' : 'asc']) }}"
+                                class="no-text-decoration">
+                                Id
+                                @if ($sort_by === 'id')
+                                    @if ($sort_order === 'asc')
+                                        <i class="fas fa-sort-up sortable-icon"></i>
+                                    @else
+                                        <i class="fas fa-sort-down sortable-icon"></i>
+                                    @endif
+                                @else
+                                    <i class="fas fa-sort sortable-icon"></i>
+                                @endif
+                            </a>
+                        </th>
                         <th>Name</th>
                         <th>Gender</th>
                         <th>Company</th>
-                        <th>Emoployee ID</th>
+                        <th>
+                            <a href="{{ route('layouts-workers', ['sort_by' => 'employee_id', 'sort_order' => $sort_by === 'employee_id' && $sort_order === 'asc' ? 'desc' : 'asc']) }}"
+                                class="no-text-decoration">
+                                Employee ID
+                                @if ($sort_by === 'employee_id')
+                                    @if ($sort_order === 'asc')
+                                        <i class="fas fa-sort-up sortable-icon"></i>
+                                    @else
+                                        <i class="fas fa-sort-down sortable-icon"></i>
+                                    @endif
+                                @else
+                                    <i class="fas fa-sort sortable-icon"></i>
+                                @endif
+                            </a>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -133,33 +234,31 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item edit-worker" href="javascript:void(0);"
-                                            data-id="{{ $worker->id }}" data-company-id="{{ $worker->company_id }}"
+                                            data-id="{{ $worker->id }}" data-company_id="{{ $worker->company_id }}"
                                             data-name="{{ $worker->name }}" data-father="{{ $worker->father }}"
-                                            data-address="{{ $worker->address }}"
-                                            data-designation="{{ $worker->designation }}"
-                                            data-identification-mark="{{ $worker->identification_mark }}"
-                                            data-work-at-hazardous-process="{{ $worker->work_at_hazardous_process }}"
-                                            data-work-at-dangerous-operation="{{ $worker->work_at_dangerous_operation }}"
-                                            data-mobile-no="{{ $worker->mobile_no }}" data-dob="{{ $worker->dob }}"
-                                            data-age="{{ $worker->age }}" data-employee-id="{{ $worker->employee_id }}"
+                                            data-addresse="{{ $worker->addresse }}"
+                                            data-designation="{{ $worker->designation }}" data-mark="{{ $worker->mark }}"
+                                            data-haza="{{ $worker->haza }}" data-dange="{{ $worker->dange }}"
+                                            data-mobile_no="{{ $worker->mobile_no }}" data-dob="{{ $worker->dob }}"
+                                            data-age="{{ $worker->age }}" data-employee_id="{{ $worker->employee_id }}"
                                             data-gender="{{ $worker->gender }}"
-                                            data-blood-group="{{ $worker->blood_group }}"
-                                            data-last-donate-date="{{ $worker->last_donate_date }}"
+                                            data-blood_group="{{ $worker->blood_group }}"
+                                            data-last_donate_date="{{ $worker->last_donate_date }}"
                                             data-height="{{ $worker->height }}" data-weight="{{ $worker->weight }}"
-                                            data-blood-pressure="{{ $worker->blood_pressure }}"
-                                            data-bmi="{{ $worker->bmi }}" data-pulse="{{ $worker->pulse }}"
-                                            data-present-complaints="{{ $worker->present_complaints }}"
-                                            data-treatment-history="{{ $worker->treatment_history }}"
-                                            data-past-history="{{ $worker->past_history }}"
-                                            data-family-history="{{ $worker->family_history }}"
-                                            data-occupational-risk="{{ $worker->occupational_risk }}"
+                                            data-bp="{{ $worker->bp }}" data-bmi="{{ $worker->bmi }}"
+                                            data-pulse="{{ $worker->pulse }}"
+                                            data-present_complaints="{{ $worker->present_complaints }}"
+                                            data-treat_history="{{ $worker->treat_history }}"
+                                            data-past_history="{{ $worker->past_history }}"
+                                            data-family_history="{{ $worker->family_history }}"
+                                            data-occu_risk="{{ $worker->occu_risk }}"
                                             data-allergy="{{ $worker->allergy }}" data-cardio="{{ $worker->cardio }}"
                                             data-resp="{{ $worker->resp }}" data-enr="{{ $worker->enr }}"
                                             data-dental="{{ $worker->dental }}" data-eye="{{ $worker->eye }}"
                                             data-remarks="{{ $worker->remarks }}"
-                                            data-fit-unfit="{{ $worker->fit_unfit }}"
-                                            data-reason-unfit="{{ $worker->reason_unfit }}"
-                                            data-company-id="{{ $worker->company_id }}">
+                                            data-fit_unfit="{{ $worker->fit_unfit }}"
+                                            data-reason_unfit="{{ $worker->reason_unfit }}"
+                                            data-company_id="{{ $worker->company_id }}">
                                             <i class="bx bx-edit-alt me-1"></i> Edit
                                         </a>
 
@@ -174,6 +273,10 @@
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        <a class="dropdown-item"
+                                            href="{{ route('workers.generate_pdf', ['worker' => $worker->id]) }}">
+                                            <i class="bx bx-file me-1"></i> Generate PDF
+                                        </a>
                                     </div>
                                 </div>
                             </td>
@@ -182,6 +285,7 @@
                 </tbody>
             </table>
         </div>
+
     </div>
     {{-- ADD MODAL --}}
     <div class="modal fade" id="addWorkerModal" tabindex="-1" aria-labelledby="addWorkerModalLabel" aria-hidden="true">
@@ -196,15 +300,17 @@
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <div class="mb-3">
-                            <label for="company_id" class="form-label">Company Name</label>
-                            <select class="form-select" id="company_id" name="company_id">
+                            <label for="company_id" class="form-label">Company Name <span
+                                    style="color: red;">*</span></label>
+                            <select class="form-select" id="company_id" name="company_id" required>
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
                                 @endforeach
                             </select>
+                            <div class="invalid-feedback">This field is required.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Name <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <div class="mb-3">
@@ -212,7 +318,7 @@
                             <input type="text" class="form-control" id="father" name="father">
                         </div>
                         <div class="mb-3">
-                            <label for="addresse" class="form-label">Address</label>
+                            <label for="addresse" class="form-label">Address <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="addresse" name="addresse">
                         </div>
                         <div class="mb-3">
@@ -220,49 +326,50 @@
                             <input type="text" class="form-control" id="designation" name="designation">
                         </div>
                         <div class="mb-3">
-                            <label for="identification_mark" class="form-label">Identification Mark</label>
-                            <input type="text" class="form-control" id="identification_mark"
-                                name="identification_mark">
+                            <label for="mark" class="form-label">Identification Mark</label>
+                            <input type="text" class="form-control" id="mark" name="mark">
                         </div>
                         <div class="mb-3">
-                            <label for="work_at_hazardous_process" class="form-label">Work at Hazadous Process</label>
-                            <input type="text" class="form-control" id="work_at_hazardous_process"
-                                name="work_at_hazardous_process">
+                            <label for="haza" class="form-label">Work at Hazadous Process</label>
+                            <input type="text" class="form-control" id="haza" name="haza">
                         </div>
                         <div class="mb-3">
-                            <label for="work_at_dangerous_operation" class="form-label">Work at Dangerous
+                            <label for="dange" class="form-label">Work at Dangerous
                                 Operation</label>
-                            <input type="text" class="form-control" id="work_at_dangerous_operation"
-                                name="work_at_dangerous_operation">
+                            <input type="text" class="form-control" id="dange" name="dange">
                         </div>
                         <div class="mb-3">
-                            <label for="mobile_no" class="form-label">Mobile Number</label>
+                            <label for="mobile_no" class="form-label">Mobile Number <span
+                                    style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="mobile_no" name="mobile_no">
                         </div>
                         <div class="mb-3">
-                            <label for="dob" class="form-label">Date of Birth</label>
+                            <label for="dob" class="form-label">Date of Birth <span
+                                    style="color: red;">*</span></label>
                             <input type="date" class="form-control" id="dob" name="dob">
                         </div>
                         <div class="mb-3">
-                            <label for="age" class="form-label">Age (Years)</label>
+                            <label for="age" class="form-label">Age (Years) <spa style="color: red;">
+                                    *</span></label>
                             <input type="text" class="form-control" id="age" name="age">
                         </div>
                         <div class="mb-3">
-                            <label for="employee_id" class="form-label">Employee ID</label>
+                            <label for="employee_id" class="form-label">Employee ID <span
+                                    style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="employee_id" name="employee_id">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Gender</label>
+                            <label class="form-label">Gender <span style="color: red;">*</span></label>
                             <div style="display: flex;">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" id="male"
-                                        value="male">
+                                        value="Male">
                                     <label class="form-check-label" style="margin-right: 1rem;"
                                         for="male">Male</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" id="female"
-                                        value="female">
+                                        value="Female">
                                     <label class="form-check-label" style="margin-right: 1rem;"
                                         for="female">Female</label>
                                 </div>
@@ -275,7 +382,8 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="blood_group" class="form-label">Blood Group</label>
+                            <label for="blood_group" class="form-label">Blood Group <span
+                                    style="color: red;">*</span></label>
                             <select class="form-select" id="blood_group" name="blood_group">
                                 <option value="">Select Blood Group</option>
                                 <option value="A+">A+</option>
@@ -301,8 +409,8 @@
                             <input type="text" class="form-control" id="weight" name="weight">
                         </div>
                         <div class="mb-3">
-                            <label for="blood_pressure" class="form-label">Blood Pressure (mm of Hg)</label>
-                            <input type="text" class="form-control" id="blood_pressure" name="blood_pressure">
+                            <label for="bp" class="form-label">Blood Pressure (mm of Hg)</label>
+                            <input type="text" class="form-control" id="bp" name="bp">
                         </div>
                         <div class="mb-3">
                             <label for="bmi" class="form-label">BMI</label>
@@ -322,8 +430,8 @@
                                 name="present_complaints">
                         </div>
                         <div class="mb-3">
-                            <label for="treatment_history" class="form-label">Treatment History Details</label>
-                            <input type="text" class="form-control" id="treatment_history" name="treatment_history">
+                            <label for="treat_history" class="form-label">Treatment History Details</label>
+                            <input type="text" class="form-control" id="treat_history" name="treat_history">
                         </div>
                         <div class="mb-3">
                             <label for="past_history" class="form-label">Past Surgery Details</label>
@@ -334,8 +442,8 @@
                             <input type="text" class="form-control" id="family_history" name="family_history">
                         </div>
                         <div class="mb-3">
-                            <label for="occupational_risk" class="form-label">Occupational Risk</label>
-                            <input type="text" class="form-control" id="occupational_risk" name="occupational_risk">
+                            <label for="occu_risk" class="form-label">Occupational Risk</label>
+                            <input type="text" class="form-control" id="occu_risk" name="occu_risk">
                         </div>
                         <div class="mb-3">
                             <label for="allergy" class="form-label">Allergies Skin/ Risks</label>
@@ -407,7 +515,8 @@
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <div class="mb-3">
-                            <label for="company_id" class="form-label">Company Name</label>
+                            <label for="company_id" class="form-label">Company Name <span style="color: red;">*</span>
+                            </label>
                             <select class="form-select" id="company_id" name="company_id">
                                 @foreach ($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->name }}</option>
@@ -415,7 +524,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Name <span style="color: red;">*</span> </label>
                             <input type="text" class="form-control" id="name" name="name">
                         </div>
                         <div class="mb-3">
@@ -423,7 +532,7 @@
                             <input type="text" class="form-control" id="father" name="father">
                         </div>
                         <div class="mb-3">
-                            <label for="addresse" class="form-label">Address</label>
+                            <label for="addresse" class="form-label">Address <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="addresse" name="addresse">
                         </div>
                         <div class="mb-3">
@@ -431,49 +540,50 @@
                             <input type="text" class="form-control" id="designation" name="designation">
                         </div>
                         <div class="mb-3">
-                            <label for="identification_mark" class="form-label">Identification Mark</label>
-                            <input type="text" class="form-control" id="identification_mark"
-                                name="identification_mark">
+                            <label for="mark" class="form-label">Identification Mark</label>
+                            <input type="text" class="form-control" id="mark" name="mark">
                         </div>
                         <div class="mb-3">
-                            <label for="work_at_hazardous_process" class="form-label">Work at Hazadous Process</label>
-                            <input type="text" class="form-control" id="work_at_hazardous_process"
-                                name="work_at_hazardous_process">
+                            <label for="haza" class="form-label">Work at Hazadous Process</label>
+                            <input type="text" class="form-control" id="haza" name="haza">
                         </div>
                         <div class="mb-3">
-                            <label for="work_at_dangerous_operation" class="form-label">Work at Dangerous
+                            <label for="dange" class="form-label">Work at Dangerous
                                 Operation</label>
-                            <input type="text" class="form-control" id="work_at_dangerous_operation"
-                                name="work_at_dangerous_operation">
+                            <input type="text" class="form-control" id="dange" name="dange">
                         </div>
                         <div class="mb-3">
-                            <label for="mobile_no" class="form-label">Mobile Number</label>
+                            <label for="mobile_no" class="form-label">Mobile Number
+                                <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="mobile_no" name="mobile_no">
                         </div>
                         <div class="mb-3">
-                            <label for="dob" class="form-label">Date of Birth</label>
+                            <label for="dob" class="form-label">Date of Birth
+                                <span style="color: red;">*</span></label>
                             <input type="date" class="form-control" id="dob" name="dob">
                         </div>
                         <div class="mb-3">
-                            <label for="age" class="form-label">Age (Years)</label>
+                            <label for="age" class="form-label">Age (Years) <span
+                                    style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="age" name="age">
                         </div>
                         <div class="mb-3">
-                            <label for="employee_id" class="form-label">Employee ID</label>
+                            <label for="employee_id" class="form-label">Employee ID <span style="color: red;">*</span>
+                            </label>
                             <input type="text" class="form-control" id="employee_id" name="employee_id">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Gender</label>
+                            <label class="form-label">Gender <span style="color: red;">*</span></label>
                             <div style="display: flex;">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" id="male"
-                                        value="male">
+                                        value="Male">
                                     <label class="form-check-label" style="margin-right: 1rem;"
                                         for="male">Male</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" id="female"
-                                        value="female">
+                                        value="Female">
                                     <label class="form-check-label" style="margin-right: 1rem;"
                                         for="female">Female</label>
                                 </div>
@@ -486,7 +596,8 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="blood_group" class="form-label">Blood Group</label>
+                            <label for="blood_group" class="form-label">Blood Group
+                                <span style="color: red;">*</span></label>
                             <select class="form-select" id="blood_group" name="blood_group">
                                 <option value="">Select Blood Group</option>
                                 <option value="A+">A+</option>
@@ -512,8 +623,8 @@
                             <input type="text" class="form-control" id="weight" name="weight">
                         </div>
                         <div class="mb-3">
-                            <label for="blood_pressure" class="form-label">Blood Pressure (mm of Hg)</label>
-                            <input type="text" class="form-control" id="blood_pressure" name="blood_pressure">
+                            <label for="bp" class="form-label">Blood Pressure (mm of Hg)</label>
+                            <input type="text" class="form-control" id="bp" name="bp">
                         </div>
                         <div class="mb-3">
                             <label for="bmi" class="form-label">BMI</label>
@@ -533,8 +644,8 @@
                                 name="present_complaints">
                         </div>
                         <div class="mb-3">
-                            <label for="treatment_history" class="form-label">Treatment History Details</label>
-                            <input type="text" class="form-control" id="treatment_history" name="treatment_history">
+                            <label for="treat_history" class="form-label">Treatment History Details</label>
+                            <input type="text" class="form-control" id="treat_history" name="treat_history">
                         </div>
                         <div class="mb-3">
                             <label for="past_history" class="form-label">Past Surgery Details</label>
@@ -545,8 +656,8 @@
                             <input type="text" class="form-control" id="family_history" name="family_history">
                         </div>
                         <div class="mb-3">
-                            <label for="occupational_risk" class="form-label">Occupational Risk</label>
-                            <input type="text" class="form-control" id="occupational_risk" name="occupational_risk">
+                            <label for="occu_risk" class="form-label">Occupational Risk</label>
+                            <input type="text" class="form-control" id="occu_risk" name="occu_risk">
                         </div>
                         <div class="mb-3">
                             <label for="allergy" class="form-label">Allergies Skin/ Risks</label>
