@@ -36,24 +36,31 @@
                 <div class="invoice">
                     <table>
                         <tr>
-                            <th style="padding-right: 74;">Name: {{ $worker->name }}</th>
-                            <th style="padding-right: 60;">DOB: {{ date('d-m-Y', strtotime($worker->dob)) }}</th>
-                            <th>Gender : @if ($worker['gender'] == 'Male')
+                            <th>Name:</th>
+                            <td style="padding-right: 80px;">{{ $worker->name }}</td>
+                            <th>DOB:</th>
+                            <td style="padding-right: 60px;">{{ date('d-m-Y', strtotime($worker->dob)) }}</td>
+                            <th>Gender:</th>
+                            <td>
+                                @if ($worker->gender == 'Male')
                                     Male
-                                @elseif($worker['gender'] == 'Female')
+                                @elseif ($worker->gender == 'Female')
                                     Female
                                 @endif
-                            </th>
+                            </td>
                         </tr>
                     </table>
+
                     <table>
                         <tr>
-                            <th style="padding-right: 70px;">Examination Date:
-                                {{ date('d-m-Y', strtotime($worker->last_donate_date)) }}
-                            </th>
-                            <th style="padding-right: 96;">Age : {{ $worker->age }}</th>
+                            <th>Examination Date:</th>
+                            <td style="padding-right: 40px;">{{ date('d-m-Y', strtotime($worker->last_donate_date)) }}
+                            </td>
+                            <th>Age:</th>
+                            <td>{{ $worker->age }}</td>
                         </tr>
                     </table>
+
                     <br>
                     <table>
                         <tr>
@@ -62,16 +69,22 @@
                     </table>
                     <table>
                         <tr>
-                            <th style="padding-right: 55;">Height: {{ $worker->height }} cm</th>
-                            <th style="padding-right: 55;">Pulse: {{ $worker->pulse }} bpm</th>
-                            <th style="padding-right: 55px;">Blood Group: {{ $worker->blood_group }}</th>
+                            <th>Height:</th>
+                            <td style="padding-right: 55;"> {{ $worker->height }} cm</td>
+                            <th>Pulse: </th>
+                            <td style="padding-right: 55;">{{ $worker->pulse }} bpm</td>
+                            <th>Blood Group: </th>
+                            <td style="padding-right: 55px;">{{ $worker->blood_group }}</td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                            <th style="padding-right: 60;">Weight: {{ $worker->weight }} kg</th>
-                            <th style="padding-right: 57;">BMI: {{ $worker->bmi }} kg/m<sup>2</sup></th>
-                            <th style="padding-right: 60;">Blood Pressure: {{ $worker->bp }}</th>
+                            <th>Weight: </th>
+                            <td style="padding-right: 60;">{{ $worker->weight }} kg</td>
+                            <th>BMI: </th>
+                            <td style="padding-right: 57;">{{ $worker->bmi }} kg/m<sup>2</sup></td>
+                            <th>Blood Pressure: </th>
+                            <td style="padding-right: 60;">{{ $worker->bp }}</td>
                         </tr>
                     </table>
                     <h3>Detailed History:</h3>
@@ -180,10 +193,13 @@
 
     <table>
         <tr>
-            <th style="padding-right: 80px;">Name: {{ $worker->name }}</th>
-            <th style="padding-right: 100px;">Age : {{ $worker->age }}</th>
-
-            <th>Gender : @if ($worker['gender'] == 'Male')
+            <th>Name: </th>
+            <td style="padding-right: 80px;">{{ $worker->name }}</td>
+            <th>Age: </th>
+            <td style="padding-right: 100px;">{{ $worker->age }}</td>
+            <th>Gender:</th>
+            <th>
+                @if ($worker['gender'] == 'Male')
                     Male
                 @elseif($worker['gender'] == 'Female')
                     Female
@@ -194,15 +210,19 @@
 
     <table>
         <tr>
-            <th style="padding-right: 147px;">Designation: {{ $worker->designation }}</th>
-            <th>Employee ID: {{ $worker->employee_id }}</th>
+            <th>Designation</th>
+            <td style="padding-right: 147px;">{{ $worker->designation }}</td>
+            <th>Employee ID:</th>
+            <td>{{ $worker->employee_id }}</td>
         </tr>
     </table>
 
     <table>
         <tr>
-            <th style="padding-right: 105px;">Company Name: {{ $worker->company->name }}</th>
-            <th>Examination Date: {{ date('d-m-Y', strtotime($worker->last_donate_date)) }}</th>
+            <th>Company Name: </th>
+            <td style="padding-right: 105px;">{{ $worker->company->name }}</td>
+            <th>Examination Date:</th>
+            <td> {{ date('d-m-Y', strtotime($worker->last_donate_date)) }}</td>
         </tr>
     </table>
 

@@ -6,6 +6,7 @@ use App\Models\CheckupDrive;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Workers;
+use App\Models\PhysicalExamination;
 use Carbon\Carbon;
 use Illuminate\Queue\Worker;
 use Illuminate\Support\Facades\Route;
@@ -57,7 +58,6 @@ class CompanyController extends Controller
     public function destroyCompany(Company $company)
     {
         $company->delete();
-
         return redirect()->route('layouts-company-details')->with('success', 'Company details added successfully!');
     }
 
@@ -273,6 +273,45 @@ class CompanyController extends Controller
     }
     public function physicalExamination()
     {
-        return view('layouts.company.physical-examination');
+        $workers = Workers::all();
+        $pes = PhysicalExamination::all();
+        return view('layouts.company.physical-examination', compact('pes', 'workers'));
+    }
+
+    public function storePE(Request $request)
+    {
+        $request->validate([
+            'worker_id' => 'required|exists:blood_donors,id',
+            'bags' => 'required|integer',
+        ]);
+
+        try {
+            PhysicalExamination::create([
+                'blood_donor_id' => $request->worker_id,
+                'bags' => $request->bags,
+            ]);
+
+            return redirect()->back()->with('success', 'Blood donation record added successfully.');
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Error saving blood donation record: ' . $e->getMessage());
+
+            // Redirect back with error message
+            return redirect()->back()->with('error', 'Failed to add blood donation record. Please try again.');
+        }
+    }
+    public function updatePE(Request $request, PhysicalExamination $pe)
+    {
+        $pe->blood_donor_id = $request->input('worker_id');
+        $pe->bags = $request->input('bags');
+        $pe->save();
+
+        return redirect()->back()->with('success', 'Blood donation record updated successfully.');
+    }
+    public function destroyPE(PhysicalExamination $pe)
+    {
+        $pe = PhysicalExamination::findOrFail($pe);
+        $pe->delete();
+        return redirect()->back()->with('success', 'Blood donation record deleted successfully.');
     }
 }

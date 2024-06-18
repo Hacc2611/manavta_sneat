@@ -47,9 +47,12 @@ class Workers extends Model
         'upload_pdf',
         'worker_signature'
     ];
-
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
+    }
+    public function physicalExaminations()
+    {
+        return $this->belongsTo(PhysicalExamination::class, 'blood_donor_id');
     }
 }
