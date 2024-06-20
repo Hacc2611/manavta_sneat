@@ -76,29 +76,22 @@
                             <td>{{ $pe->id }}</td>
                             <td>{{ $pe->worker->name }}</td>
                             <td>{{ $pe->bags }}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-pe" href="javascript:void(0);">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item delete-pe"
-                                            href="{{ route('pe.destroy', ['pe' => $pe->id]) }}"
-                                            onclick="event.preventDefault(); if(confirm('Are you sure you want to delete?')) { document.getElementById('delete-form-{{ $pe->id }}').submit(); }">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-                                        <form id="delete-form-{{ $pe->id }}"
-                                            action="{{ route('pe.destroy', ['pe' => $pe->id]) }}" method="POST"
-                                            style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </div>
-                                </div>
+                            <td style="display: flex; gap: 10px;">
+                                <a class="edit-pe" href="javascript:void(0);"
+                                    style="font-size: 1.2rem; color: rgb(150, 149, 149);">
+                                    <i class="bx bx-edit-alt"></i>
+                                </a>
+                                <a class="delete-pe" href="{{ route('pe.destroy', ['pe' => $pe->id]) }}"
+                                    style="font-size: 1.2rem; color: grey;"
+                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete?')) { document.getElementById('delete-form-{{ $pe->id }}').submit(); }">
+                                    <i class="bx bx-trash"></i>
+                                </a>
+                                <form id="delete-form-{{ $pe->id }}"
+                                    action="{{ route('pe.destroy', ['pe' => $pe->id]) }}" method="POST"
+                                    style="display: none; color: rgb(150, 149, 149);">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                     @endforeach

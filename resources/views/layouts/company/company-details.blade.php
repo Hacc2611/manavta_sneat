@@ -50,6 +50,14 @@
 @endsection
 
 @section('content')
+    <style>
+        .address-column {
+            max-width: 200px;
+            /* Adjust this value to your desired maximum width */
+            white-space: normal;
+            word-wrap: break-word;
+        }
+    </style>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Company Details</h5>
@@ -64,7 +72,7 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Employee Size</th>
-                        <th>Address</th>
+                        <th style="width: 200px;">Address</th>
                         <th>GSTIN</th>
                         <th>CIN</th>
                         <th>Actions</th>
@@ -76,35 +84,30 @@
                             <td>{{ $company->id }}</td>
                             <td>{{ $company->name }}</td>
                             <td>{{ $company->employee_size }}</td>
-                            <td>{{ $company->address }}</td>
+                            <td class="address-column">{{ $company->address }}</td>
                             <td>{{ $company->gstin }}</td>
                             <td>{{ $company->cin }}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-company" href="javascript:void(0);"
-                                            data-id="{{ $company->id }}" data-name="{{ $company->name }}"
-                                            data-employee-size="{{ $company->employee_size }}"
-                                            data-address="{{ $company->address }}" data-gstin="{{ $company->gstin }}"
-                                            data-cin="{{ $company->cin }}">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item delete-company"
-                                            href="{{ route('company.destroy', ['company' => $company->id]) }}"
-                                            onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $company->name }}?')) { document.getElementById('delete-form-{{ $company->id }}').submit(); }">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-                                        <form id="delete-form-{{ $company->id }}"
-                                            action="{{ route('company.destroy', ['company' => $company->id]) }}"
-                                            method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </div>
+                            <td class="align-middle text-center">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a class="dropdown-item edit-company" href="javascript:void(0);"
+                                        data-id="{{ $company->id }}" data-name="{{ $company->name }}"
+                                        data-employee-size="{{ $company->employee_size }}"
+                                        data-address="{{ $company->address }}" data-gstin="{{ $company->gstin }}"
+                                        data-cin="{{ $company->cin }}" style="font-size: 1.2rem;">
+                                        <i class="bx bx-edit-alt "></i>
+                                    </a>
+                                    <a class="dropdown-item delete-company"
+                                        href="{{ route('company.destroy', ['company' => $company->id]) }}"
+                                        onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $company->name }}?')) { document.getElementById('delete-form-{{ $company->id }}').submit(); }"
+                                        style="font-size: 1.2rem;">
+                                        <i class="bx bx-trash "></i>
+                                    </a>
+                                    <form id="delete-form-{{ $company->id }}"
+                                        action="{{ route('company.destroy', ['company' => $company->id]) }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
                                 </div>
                             </td>
                         </tr>

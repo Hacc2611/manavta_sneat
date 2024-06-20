@@ -111,6 +111,13 @@
                 var reason_unfit = $(this).data('reason_unfit');
                 var company_id = $(this).data('company_id');
 
+                var upload_pdf = $(this).data('upload_pdf');
+                var upload_pdf_1 = $(this).data('upload_pdf_1');
+                var upload_pdf_2 = $(this).data('upload_pdf_2');
+                var upload_pdf_3 = $(this).data('upload_pdf_3');
+                var upload_pdf_4 = $(this).data('upload_pdf_4');
+
+
                 $('#editWorkerModal #id').val(id);
                 $('#editWorkerModal #name').val(name);
                 $('#editWorkerModal #company_id').val(company_id);
@@ -149,9 +156,66 @@
                 $('#editWorkerModal #reason_unfit').val(reason_unfit);
                 $('#editWorkerModal #company_id').val(company_id);
 
+                // Show and populate the PDF upload fields
+                if (upload_pdf) {
+                    $('#editWorkerModal_upload_pdf_div').show();
+                    $('#editWorkerModal_upload_pdf_div label').text('Uploaded PDF : ' + upload_pdf);
+                } else {
+                    $('#editWorkerModal_upload_pdf_div').hide();
+                }
+
+                if (upload_pdf_1) {
+                    $('#editWorkerModal_upload_pdf_1_div').show();
+                    $('#editWorkerModal_upload_pdf_1_div label').text('Uploaded PDF 1 : ' + upload_pdf_1);
+                } else {
+                    $('#editWorkerModal_upload_pdf_1_div').hide();
+                }
+
+                if (upload_pdf_2) {
+                    $('#editWorkerModal_upload_pdf_2_div').show();
+                    $('#editWorkerModal_upload_pdf_2_div label').text('Uploaded PDF 2 : ' + upload_pdf_2);
+                } else {
+                    $('#editWorkerModal_upload_pdf_2_div').hide();
+                }
+
+                if (upload_pdf_3) {
+                    $('#editWorkerModal_upload_pdf_3_div').show();
+                    $('#editWorkerModal_upload_pdf_3_div label').text('Uploaded PDF 3 : ' + upload_pdf_3);
+                } else {
+                    $('#editWorkerModal_upload_pdf_3_div').hide();
+                }
+
+                if (upload_pdf_4) {
+                    $('#editWorkerModal_upload_pdf_4_div').show();
+                    $('#editWorkerModal_upload_pdf_4_div label').text('Uploaded PDF 4 : ' + upload_pdf_4);
+                } else {
+                    $('#editWorkerModal_upload_pdf_4_div').hide();
+                }
+
                 $('#editWorkerModal').modal('show');
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const addMorePdfButtons = document.querySelectorAll('.add_more_pdf');
+
+            addMorePdfButtons.forEach(button => {
+                let currentPdfIndex = 1;
+                button.addEventListener('click', function() {
+                    const modalId = button.closest('.modal').id;
+                    if (currentPdfIndex <= 4) {
+                        document.getElementById(`${modalId}_upload_pdf_${currentPdfIndex}_div`)
+                            .style.display = 'block';
+                        currentPdfIndex++;
+                        if (currentPdfIndex > 4) {
+                            button.style.display =
+                                'none'; // Hide the button when all fields are shown
+                        }
+                    }
+                });
+            });
+        });
+
 
         $(document).ready(function() {
             $('.table').DataTable({
@@ -178,6 +242,12 @@
                 Add Worker
             </button>
         </div>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="table-responsive text-nowrap">
             <table class="table table-striped">
                 <thead>
@@ -226,59 +296,56 @@
                             <td>{{ $worker->gender }}</td>
                             <td>{{ $worker->company->name }}</td>
                             <td>{{ $worker->employee_id }}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-worker" href="javascript:void(0);"
-                                            data-id="{{ $worker->id }}" data-company_id="{{ $worker->company_id }}"
-                                            data-name="{{ $worker->name }}" data-father="{{ $worker->father }}"
-                                            data-addresse="{{ $worker->addresse }}"
-                                            data-designation="{{ $worker->designation }}" data-mark="{{ $worker->mark }}"
-                                            data-haza="{{ $worker->haza }}" data-dange="{{ $worker->dange }}"
-                                            data-mobile_no="{{ $worker->mobile_no }}" data-dob="{{ $worker->dob }}"
-                                            data-age="{{ $worker->age }}" data-employee_id="{{ $worker->employee_id }}"
-                                            data-gender="{{ $worker->gender }}"
-                                            data-blood_group="{{ $worker->blood_group }}"
-                                            data-last_donate_date="{{ $worker->last_donate_date }}"
-                                            data-height="{{ $worker->height }}" data-weight="{{ $worker->weight }}"
-                                            data-bp="{{ $worker->bp }}" data-bmi="{{ $worker->bmi }}"
-                                            data-pulse="{{ $worker->pulse }}"
-                                            data-present_complaints="{{ $worker->present_complaints }}"
-                                            data-treat_history="{{ $worker->treat_history }}"
-                                            data-past_history="{{ $worker->past_history }}"
-                                            data-family_history="{{ $worker->family_history }}"
-                                            data-occu_risk="{{ $worker->occu_risk }}"
-                                            data-allergy="{{ $worker->allergy }}" data-cardio="{{ $worker->cardio }}"
-                                            data-resp="{{ $worker->resp }}" data-enr="{{ $worker->enr }}"
-                                            data-dental="{{ $worker->dental }}" data-eye="{{ $worker->eye }}"
-                                            data-remarks="{{ $worker->remarks }}"
-                                            data-fit_unfit="{{ $worker->fit_unfit }}"
-                                            data-reason_unfit="{{ $worker->reason_unfit }}"
-                                            data-company_id="{{ $worker->company_id }}">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
+                            <td style="display: flex; gap: 10px;">
+                                <a class="dropdown-item edit-worker" href="javascript:void(0);"
+                                    data-id="{{ $worker->id }}" data-company_id="{{ $worker->company_id }}"
+                                    data-name="{{ $worker->name }}" data-father="{{ $worker->father }}"
+                                    data-addresse="{{ $worker->addresse }}" data-designation="{{ $worker->designation }}"
+                                    data-mark="{{ $worker->mark }}" data-haza="{{ $worker->haza }}"
+                                    data-dange="{{ $worker->dange }}" data-mobile_no="{{ $worker->mobile_no }}"
+                                    data-dob="{{ $worker->dob }}" data-age="{{ $worker->age }}"
+                                    data-employee_id="{{ $worker->employee_id }}" data-gender="{{ $worker->gender }}"
+                                    data-blood_group="{{ $worker->blood_group }}"
+                                    data-last_donate_date="{{ $worker->last_donate_date }}"
+                                    data-height="{{ $worker->height }}" data-weight="{{ $worker->weight }}"
+                                    data-bp="{{ $worker->bp }}" data-bmi="{{ $worker->bmi }}"
+                                    data-pulse="{{ $worker->pulse }}"
+                                    data-present_complaints="{{ $worker->present_complaints }}"
+                                    data-treat_history="{{ $worker->treat_history }}"
+                                    data-past_history="{{ $worker->past_history }}"
+                                    data-family_history="{{ $worker->family_history }}"
+                                    data-occu_risk="{{ $worker->occu_risk }}" data-allergy="{{ $worker->allergy }}"
+                                    data-cardio="{{ $worker->cardio }}" data-resp="{{ $worker->resp }}"
+                                    data-enr="{{ $worker->enr }}" data-dental="{{ $worker->dental }}"
+                                    data-eye="{{ $worker->eye }}" data-remarks="{{ $worker->remarks }}"
+                                    data-fit_unfit="{{ $worker->fit_unfit }}"
+                                    data-reason_unfit="{{ $worker->reason_unfit }}"
+                                    data-company_id="{{ $worker->company_id }}"
+                                    data-upload_pdf="{{ $worker->upload_pdf }}"
+                                    data-upload_pdf_1="{{ $worker->upload_pdf_1 }}"
+                                    data-upload_pdf_2="{{ $worker->upload_pdf_2 }}"
+                                    data-upload_pdf_3="{{ $worker->upload_pdf_3 }}"
+                                    data-upload_pdf_4="{{ $worker->upload_pdf_4 }}" style="font-size: 1.2rem;">
+                                    <i class="bx bx-edit-alt"></i>
+                                </a>
 
-                                        <a class="dropdown-item delete-worker"
-                                            href="{{ route('worker.destroy', ['worker' => $worker->id]) }}"
-                                            onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $worker->name }}?')) { document.getElementById('delete-form-{{ $worker->id }}').submit(); }">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-                                        <form id="delete-form-{{ $worker->id }}"
-                                            action="{{ route('worker.destroy', ['worker' => $worker->id]) }}"
-                                            method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        <a class="dropdown-item"
-                                            href="{{ route('workers.generate_pdf', ['worker' => $worker->id]) }}">
-                                            <i class="bx bx-file me-1"></i> Generate PDF
-                                        </a>
-                                    </div>
-                                </div>
+                                <a class="dropdown-item delete-worker"
+                                    href="{{ route('worker.destroy', ['worker' => $worker->id]) }}"
+                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $worker->name }}?')) { document.getElementById('delete-form-{{ $worker->id }}').submit(); }"
+                                    style="font-size: 1.2rem;">
+                                    <i class="bx bx-trash"></i>
+                                </a>
+                                <form id="delete-form-{{ $worker->id }}"
+                                    action="{{ route('worker.destroy', ['worker' => $worker->id]) }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <a class="dropdown-item"
+                                    href="{{ route('workers.generate_pdf', ['worker' => $worker->id]) }}"
+                                    style="font-size: 1.2rem;">
+                                    <i class="bx bx-file"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -485,6 +552,29 @@
                             <label for="upload_pdf" class="form-label">Upload Pdf</label>
                             <input type="file" class="form-control" id="upload_pdf" name="upload_pdf">
                         </div>
+
+                        <!-- Additional PDF upload fields, initially hidden -->
+                        <div class="mb-3" id="upload_pdf_1_div" style="display: none;">
+                            <label for="upload_pdf_1" class="form-label">Upload Pdf 1</label>
+                            <input type="file" class="form-control" id="upload_pdf_1" name="upload_pdf_1">
+                        </div>
+                        <div class="mb-3" id="upload_pdf_2_div" style="display: none;">
+                            <label for="upload_pdf_2" class="form-label">Upload Pdf 2</label>
+                            <input type="file" class="form-control" id="upload_pdf_2" name="upload_pdf_2">
+                        </div>
+                        <div class="mb-3" id="upload_pdf_3_div" style="display: none;">
+                            <label for="upload_pdf_3" class="form-label">Upload Pdf 3</label>
+                            <input type="file" class="form-control" id="upload_pdf_3" name="upload_pdf_3">
+                        </div>
+                        <div class="mb-3" id="upload_pdf_4_div" style="display: none;">
+                            <label for="upload_pdf_4" class="form-label">Upload Pdf 4</label>
+                            <input type="file" class="form-control" id="upload_pdf_4" name="upload_pdf_4">
+                        </div>
+
+                        <!-- Button to add more PDFs -->
+                        <button type="button" id="add_more_pdf" class="btn btn-primary btn-sm"
+                            style="margin-bottom: 10px">Add More PDF</button>
+
                         <div class="mb-3">
                             <label for="worker_signature" class="form-label">Upload Signature</label>
                             <input type="file" class="form-control" id="worker_signature" name="worker_signature">
@@ -695,10 +785,32 @@
                             <label for="reason_unfit" class="form-label">Reason for Unfit</label>
                             <input type="text" class="form-control" id="reason_unfit" name="reason_unfit">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="editWorkerModal_upload_pdf_div">
                             <label for="upload_pdf" class="form-label">Upload Pdf</label>
                             <input type="file" class="form-control" id="upload_pdf" name="upload_pdf">
                         </div>
+
+                        <!-- Additional PDF upload fields, initially hidden -->
+                        <div class="mb-3" id="editWorkerModal_upload_pdf_1_div" style="display: none;">
+                            <label for="upload_pdf_1" class="form-label">Upload Pdf 1</label>
+                            <input type="file" class="form-control" id="upload_pdf_1" name="upload_pdf_1">
+                        </div>
+                        <div class="mb-3" id="editWorkerModal_upload_pdf_2_div" style="display: none;">
+                            <label for="upload_pdf_2" class="form-label">Upload Pdf 2</label>
+                            <input type="file" class="form-control" id="upload_pdf_2" name="upload_pdf_2">
+                        </div>
+                        <div class="mb-3" id="editWorkerModal_upload_pdf_3_div" style="display: none;">
+                            <label for="upload_pdf_3" class="form-label">Upload Pdf 3</label>
+                            <input type="file" class="form-control" id="upload_pdf_3" name="upload_pdf_3">
+                        </div>
+                        <div class="mb-3" id="editWorkerModal_upload_pdf_4_div" style="display: none;">
+                            <label for="upload_pdf_4" class="form-label">Upload Pdf 4</label>
+                            <input type="file" class="form-control" id="upload_pdf_4" name="upload_pdf_4">
+                        </div>
+                        <!-- Button to add more PDFs -->
+                        <button type="button" id="addWorkerModal_add_more_pdf"
+                            class="btn btn-primary btn-sm add_more_pdf" style="margin-bottom: 10px">Add More PDF</button>
+
                         <div class="mb-3">
                             <label for="worker_signature" class="form-label">Upload Signature</label>
                             <input type="file" class="form-control" id="worker_signature" name="worker_signature">

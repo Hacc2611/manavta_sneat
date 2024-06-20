@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfReader\PdfReader;
+use setasign\Fpdi\PdfReader\StreamReader;
 
 class CompanyController extends Controller
 {
@@ -134,8 +137,7 @@ class CompanyController extends Controller
             'gender' => 'required',
             'employee_id' => 'required',
             'blood_group' => 'required',
-            'upload_pdf' => 'nullable|file|mimes:pdf|max:2048', // Max file size: 2MB
-            'worker_signature' => 'nullable|file|mimes:jpeg,png,jpg|max:2048', // Max file size: 2MB
+            'worker_signature' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         try {
@@ -148,6 +150,7 @@ class CompanyController extends Controller
             $worker->gender = $validatedData['gender'];
             $worker->employee_id = $validatedData['employee_id'];
             $worker->blood_group = $validatedData['blood_group'];
+
             // Assign additional fields from the request
             $worker->father = $request->input('father');
             $worker->addresse = $request->input('addresse');
@@ -177,27 +180,55 @@ class CompanyController extends Controller
             $worker->fit_unfit = $request->input('fit_unfit');
             $worker->reason_unfit = $request->input('reason_unfit');
 
-            // Add more fields as needed
+            // Save the worker to generate an ID
+            $worker->save();
+            $workerId = $worker->id;
+
+            // Handle file uploads using the generated worker ID
             if ($request->hasFile('upload_pdf')) {
                 $pdfFile = $request->file('upload_pdf');
-                $pdfFileName = time() . '_' . $pdfFile->getClientOriginalName();
+                $pdfFileName = $workerId . '_' . $pdfFile->getClientOriginalName();
                 $pdfFile->storeAs('pdf_files', $pdfFileName); // Store file in storage/pdf_files directory
                 $worker->upload_pdf = $pdfFileName; // Save file name to database
             }
+            if ($request->hasFile('upload_pdf_1')) {
+                $pdfFile1 = $request->file('upload_pdf_1');
+                $pdfFileName1 = $workerId . '_1_' . $pdfFile1->getClientOriginalName();
+                $pdfFile1->storeAs('pdf_files', $pdfFileName1); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_1 = $pdfFileName1; // Save file name to database
+            }
+            if ($request->hasFile('upload_pdf_2')) {
+                $pdfFile2 = $request->file('upload_pdf_2');
+                $pdfFileName2 = $workerId . '_2_' . $pdfFile2->getClientOriginalName();
+                $pdfFile2->storeAs('pdf_files', $pdfFileName2); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_2 = $pdfFileName2; // Save file name to database
+            }
+            if ($request->hasFile('upload_pdf_3')) {
+                $pdfFile3 = $request->file('upload_pdf_3');
+                $pdfFileName3 = $workerId . '_3_' . $pdfFile3->getClientOriginalName();
+                $pdfFile3->storeAs('pdf_files', $pdfFileName3); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_3 = $pdfFileName3; // Save file name to database
+            }
+            if ($request->hasFile('upload_pdf_4')) {
+                $pdfFile4 = $request->file('upload_pdf_4');
+                $pdfFileName4 = $workerId . '_4_' . $pdfFile4->getClientOriginalName();
+                $pdfFile4->storeAs('pdf_files', $pdfFileName4); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_4 = $pdfFileName4; // Save file name to database
+            }
             if ($request->hasFile('worker_signature')) {
                 $signatureFile = $request->file('worker_signature');
-                $signatureFileName = time() . '_' . $signatureFile->getClientOriginalName();
-                $signatureFile->storeAs('signatures', $signatureFileName); // Store file in storage/signatures directory
+                $signatureFileName = $workerId . '_' . $signatureFile->getClientOriginalName();
+                $signatureFile->storeAs('worker_signatures', $signatureFileName); // Store file in storage/worker_signatures directory
                 $worker->worker_signature = $signatureFileName; // Save file name to database
             }
 
-            // Save the worker to the database
+            // Save worker details again to update file names
             $worker->save();
 
-            return redirect()->back()->with('success', 'Worker added successfully!');
+            return redirect()->route('layouts-workers')->with('success', 'Worker details saved successfully!');
         } catch (\Exception $e) {
-            Log::error('An error occurred while saving the worker: ' . $e->getMessage());
-            return redirect()->back()->withInput()->with('error', 'An error occurred while saving the worker: ' . $e->getMessage());
+            Log::error('Error saving worker details: ' . $e->getMessage());
+            return redirect()->route('layouts-workers')->with('error', 'Failed to save worker details. Please try again.');
         }
     }
 
@@ -213,13 +244,12 @@ class CompanyController extends Controller
                 'gender' => 'required',
                 'employee_id' => 'required',
                 'blood_group' => 'required',
-                'upload_pdf' => 'nullable|file|mimes:pdf|max:2048', // Max file size: 2MB
                 'worker_signature' => 'nullable|file|mimes:jpeg,png,jpg|max:2048', // Max file size: 2MB
             ]);
 
             // Find the worker by ID
             $worker = Workers::findOrFail($id);
-
+            $workerId = $worker->id;
             // Update worker attributes
             $worker->fill($validatedData);
 
@@ -230,9 +260,53 @@ class CompanyController extends Controller
                     Storage::delete($worker->upload_pdf);
                 }
                 $pdfFile = $request->file('upload_pdf');
-                $pdfFileName = time() . '_' . $pdfFile->getClientOriginalName();
+                $pdfFileName = $workerId . '_' . $pdfFile->getClientOriginalName();
                 $pdfFile->storeAs('pdf_files', $pdfFileName); // Store file in storage/pdf_files directory
                 $worker->upload_pdf = $pdfFileName; // Save file name to database
+            }
+            // Handle PDF file upload if present
+            if ($request->hasFile('upload_pdf_1')) {
+                // Delete the old file if it exists
+                if ($worker->upload_pdf_1) {
+                    Storage::delete($worker->upload_pdf_1);
+                }
+                $pdfFile1 = $request->file('upload_pdf_1');
+                $pdfFileName1 = $workerId . '_1_' . $pdfFile1->getClientOriginalName();
+                $pdfFile1->storeAs('pdf_files', $pdfFileName1); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_1 = $pdfFileName1; // Save file name to database
+            }
+            // Handle PDF file upload if present
+            if ($request->hasFile('upload_pdf_2')) {
+                // Delete the old file if it exists
+                if ($worker->upload_pdf_2) {
+                    Storage::delete($worker->upload_pdf_2);
+                }
+                $pdfFile2 = $request->file('upload_pdf_2');
+                $pdfFileName2 = $workerId . '_2_' . $pdfFile2->getClientOriginalName();
+                $pdfFile2->storeAs('pdf_files', $pdfFileName2); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_2 = $pdfFileName2; // Save file name to database
+            }
+            // Handle PDF file upload if present
+            if ($request->hasFile('upload_pdf_3')) {
+                // Delete the old file if it exists
+                if ($worker->upload_pdf_3) {
+                    Storage::delete($worker->upload_pdf_3);
+                }
+                $pdfFile3 = $request->file('upload_pdf_3');
+                $pdfFileName3 = $workerId . '_3_' . $pdfFile3->getClientOriginalName();
+                $pdfFile3->storeAs('pdf_files', $pdfFileName3); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_3 = $pdfFileName3; // Save file name to database
+            }
+            // Handle PDF file upload if present
+            if ($request->hasFile('upload_pdf_4')) {
+                // Delete the old file if it exists
+                if ($worker->upload_pdf_4) {
+                    Storage::delete($worker->upload_pdf_4);
+                }
+                $pdfFile4 = $request->file('upload_pdf_4');
+                $pdfFileName4 = $workerId . '_4_' . $pdfFile4->getClientOriginalName();
+                $pdfFile4->storeAs('pdf_files', $pdfFileName4); // Store file in storage/pdf_files directory
+                $worker->upload_pdf_4 = $pdfFileName4; // Save file name to database
             }
 
             // Handle worker signature file upload if present
@@ -264,13 +338,13 @@ class CompanyController extends Controller
         $worker->delete();
         return redirect()->back()->with('success', 'Worker deleted successfully.');
     }
-    public function generateWorkerPDF($id)
-    {
-        $companies = Company::all();
-        $worker = Workers::findOrFail($id);
-        $pdf = PDF::loadView('layouts.company.worker_pdf', compact('worker', 'companies'));
-        return $pdf->stream('worker_' . $id . '.pdf');
-    }
+    // public function generateWorkerPDF($id)
+    // {
+    //     $companies = Company::all();
+    //     $worker = Workers::findOrFail($id);
+    //     $pdf = PDF::loadView('layouts.company.worker_pdf', compact('worker', 'companies'));
+    //     return $pdf->stream('worker_' . $id . '.pdf');
+    // }
     public function physicalExamination()
     {
         $workers = Workers::all();
@@ -310,8 +384,60 @@ class CompanyController extends Controller
     }
     public function destroyPE(PhysicalExamination $pe)
     {
-        $pe = PhysicalExamination::findOrFail($pe);
         $pe->delete();
         return redirect()->back()->with('success', 'Blood donation record deleted successfully.');
     }
+    public function generateWorkerPDF($id)
+    {
+        // Generate the dynamic PDF
+        $companies = Company::all();
+        $worker = Workers::findOrFail($id);
+        $pdf = PDF::loadView('layouts.company.worker_pdf', compact('worker', 'companies'));
+        $pdfContent = $pdf->output();
+
+        // Save the generated PDF to a temporary file
+        $tempGeneratedPdfPath = tempnam(sys_get_temp_dir(), 'generated_pdf') . '.pdf';
+        file_put_contents($tempGeneratedPdfPath, $pdfContent);
+
+        // Initialize FPDI
+        $fpdi = new Fpdi();
+
+        // Add the generated PDF pages to FPDI
+        $pageCount = $fpdi->setSourceFile($tempGeneratedPdfPath);
+        for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+            $templateId = $fpdi->importPage($pageNo);
+            $size = $fpdi->getTemplateSize($templateId);
+
+            $fpdi->AddPage($size['orientation'], [$size['width'], $size['height']]);
+            $fpdi->useTemplate($templateId);
+        }
+
+        // List of columns to iterate over
+        $uploadPdfColumns = ['upload_pdf', 'upload_pdf_1', 'upload_pdf_2', 'upload_pdf_3', 'upload_pdf_4'];
+
+        // Add the stored PDFs to FPDI
+        foreach ($uploadPdfColumns as $column) {
+            $uploadPdfFilename = $worker->$column; // Assuming the filename is stored in the corresponding column
+            if ($uploadPdfFilename) {
+                $storedPdfPath = storage_path('app/pdf_files/' . $uploadPdfFilename);
+                $pageCount = $fpdi->setSourceFile($storedPdfPath);
+                for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                    $templateId = $fpdi->importPage($pageNo);
+                    $size = $fpdi->getTemplateSize($templateId);
+
+                    $fpdi->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                    $fpdi->useTemplate($templateId);
+                }
+            }
+        }
+
+        $date = date('d-m-Y');
+        $filename = $worker->name . '_' . $date . '.pdf';
+
+        // Output the merged PDF with the correct filename
+        return response($fpdi->Output('S'))
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
 }

@@ -66,34 +66,26 @@
                             <td>{{ $checkupDrive->title ?? 'N/A' }}</td>
                             <td>{{ is_object($checkupDrive) && $checkupDrive->date ? \Carbon\Carbon::parse($checkupDrive->date)->format('M Y') : 'N/A' }}
                             </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item edit-checkup-drive" href="javascript:void(0);"
-                                            data-id="{{ $checkupDrive->id ?? '' }}"
-                                            data-company_id="{{ $checkupDrive->company_id ?? '' }}"
-                                            data-title="{{ $checkupDrive->title ?? '' }}"
-                                            data-date="{{ $checkupDrive->date ?? '' }}">
-                                            <i class="bx bx-edit-alt me-1"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item delete-checkup-drive"
-                                            href="{{ route('checkupDrive.destroy', ['checkupDrive' => $checkupDrive->id ?? 0]) }}"
-                                            onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $checkupDrive->company->name ?? '' }}?')) { document.getElementById('delete-form-{{ $checkupDrive->id ?? '' }}').submit(); }">
-                                            <i class="bx bx-trash me-1"></i> Delete
-                                        </a>
-
-                                        <form id="delete-form-{{ $checkupDrive->id ?? '' }}"
-                                            action="{{ route('checkupDrive.destroy', ['checkupDrive' => $checkupDrive->id ?? 0]) }}"
-                                            method="POST" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </div>
-                                </div>
+                            <td style="display: flex; gap: 10px;">
+                                <a class="edit-checkup-drive" href="javascript:void(0);"
+                                    data-id="{{ $checkupDrive->id ?? '' }}"
+                                    data-company_id="{{ $checkupDrive->company_id ?? '' }}"
+                                    data-title="{{ $checkupDrive->title ?? '' }}"
+                                    data-date="{{ $checkupDrive->date ?? '' }}"
+                                    style="font-size: 1.2rem; color: rgb(150, 149, 149);">
+                                    <i class="bx bx-edit-alt "></i>
+                                </a>
+                                <a class="delete-checkup-drive" style="font-size: 1.2rem; color: rgb(150, 149, 149);"
+                                    href="{{ route('checkupDrive.destroy', ['checkupDrive' => $checkupDrive->id ?? 0]) }}"
+                                    onclick="event.preventDefault(); if(confirm('Are you sure you want to delete {{ $checkupDrive->company->name ?? '' }}?')) { document.getElementById('delete-form-{{ $checkupDrive->id ?? '' }}').submit(); }">
+                                    <i class="bx bx-trash "></i>
+                                </a>
+                                <form id="delete-form-{{ $checkupDrive->id ?? '' }}"
+                                    action="{{ route('checkupDrive.destroy', ['checkupDrive' => $checkupDrive->id ?? 0]) }}"
+                                    method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                     @endforeach
